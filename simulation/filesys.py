@@ -14,7 +14,7 @@ class Inode(DIFC_data_object):
     def ls(self, user):
         self.auth(user)
         if self.type == 0:
-            content = [i.name+'\t'+i.type for i in self.object.values()]
+            content = [i.name+'\t'+str(i.type) for i in self.object.values()]
             for i in content:
                 print(i)
         else:
@@ -24,8 +24,10 @@ class Inode(DIFC_data_object):
         self.auth(user)
         return self.object[name]
 
-    def newfile(self, user, name, dataObj, s, i):
+    def newfile(self, user, name, dataObj, s=None, i=None):
         self.auth(user)
+        if not s: s = user.get_label_s()
+        if not i: i = user.get_label_i()
         if name not in self.object.keys():
             inode = Inode(name, 1, s, i, dataObj)
             self.object[name] = inode
@@ -38,8 +40,10 @@ class Inode(DIFC_data_object):
         inode.auth(user)
         del self.object[name]
 
-    def mkdir(self, user, name, s, i):
+    def mkdir(self, user, name, s=None, i=None):
         self.auth(user)
+        if not s: s = user.get_label_s()
+        if not i: i = user.get_label_i()
         if name not in self.object.keys():
             inode = Inode(name, 0, s, i, {})
             self.object[name] = inode
@@ -52,3 +56,15 @@ class Inode(DIFC_data_object):
         inode.auth(user)
         del self.object[name]
 
+if __name__ == "__main__":
+    filesys = Inode("/", 0)
+    user = DIFC_principle()
+    filesys.mkdir(user, "bin")
+    filesys.mkdir(user, "tmp")
+    filesys.mkdir(user, "usr")
+    filesys.mkdir(user, "etc")
+    filesys.ls(user)
+    usr = filesys.cd(user, "usr")
+    usr.mkdir(user, "krisya")
+
+    

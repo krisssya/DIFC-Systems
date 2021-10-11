@@ -13,6 +13,12 @@ class DIFC_principle(object):
         self.capadd_local = set()
         self.caprmv_local = set()
 
+    def get_label_s(self):
+        return self.label_s
+
+    def get_label_i(self):
+        return self.label_i
+
     def gen_tag(self, tag):
         global tag_pool
         if tag in tag_pool:
