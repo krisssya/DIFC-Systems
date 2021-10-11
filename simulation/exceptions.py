@@ -6,3 +6,9 @@ class TagAlreadyUsed(Exception):
 
 class NoPermission(Exception):
     pass
+
+class NoSuchFileOrDirectory(Exception):
+    pass
+
+class FileException(Exception):
+    pass

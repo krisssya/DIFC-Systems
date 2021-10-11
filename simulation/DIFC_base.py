@@ -81,6 +81,13 @@ class DIFC_data(object):
         self.label_i = set()
         self.data = data
 
+    def auth(self, user):
+        if not self.label_s <= user.label_s and user.label_i <= self.label_i:
+            raise NoPermission()
+
+    def get(self, user):
+        self.auth(user)
+        return self.data
 
 class DIFC_data_object(object):
     
@@ -88,3 +95,7 @@ class DIFC_data_object(object):
         self.label_s = label_s
         self.label_i = label_i
         self.object = object
+
+    def auth(self, user):
+        if not self.label_s <= user.label_s and user.label_i <= self.label_i:
+            raise NoPermission()
